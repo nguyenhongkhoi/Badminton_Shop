@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${product.name} + ' - Smash Shop')}"></head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/(categoryId=${product.category.id})}" th:text="${product.category.name}">Danh mục</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${product.name}">Tên sản phẩm</li>
+        </ol>
+    </nav>
+
+    <div class="row bg-white p-4 shadow-sm rounded">
+        <!-- Ảnh -->
+        <div class="col-md-5 text-center">
+            <img th:src="${product.imageUrl != null ? product.imageUrl : 'https://via.placeholder.com/400x400?text=No+Image'}"
+                 class="img-fluid rounded border" alt="Product Image">
+        </div>
+
+        <!-- Chi tiết -->
+        <div class="col-md-7">
+            <h2 class="fw-bold" th:text="${product.name}">Tên sản phẩm</h2>
+            <p class="text-muted">Thương hiệu: <span class="badge bg-secondary" th:text="${product.brand.name}"></span></p>
+
+            <h3 class="text-danger fw-bold my-3" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></h3>
+
+            <p class="fs-6">Tình trạng:
+                <span th:if="${product.stock > 0}" class="text-success fw-bold">Còn hàng (<span th:text="${product.stock}"></span>)</span>
+                <span th:if="${product.stock == 0}" class="text-danger fw-bold">Hết hàng</span>
+            </p>
+
+            <hr>
+            <p th:text="${product.description}" class="text-secondary" style="white-space: pre-line;">Mô tả sản phẩm...</p>
+            <hr>
+
+            <!-- Form đặt hàng -->
+            <form th:action="@{/cart/add}" method="post" class="d-flex align-items-center mt-4">
+                <input type="hidden" name="productId" th:value="${product.id}">
+                <label for="quantity" class="me-2 fw-bold">Số lượng:</label>
+                <input type="number" id="quantity" name="quantity" class="form-control text-center w-25 me-3" value="1" min="1" th:max="${product.stock}">
+
+                <button type="submit" class="btn btn-sport btn-lg px-4" th:disabled="${product.stock == 0}">
+                    <i class="bi bi-cart-plus-fill"></i> Chọn Mua
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>

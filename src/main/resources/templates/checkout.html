@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Thanh toán - Smash Shop')}"></head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="container mt-5 min-vh-100">
+    <h2 class="text-sport fw-bold mb-4"><i class="bi bi-credit-card"></i> Xác Nhận Đặt Hàng</h2>
+
+    <!-- Hiện lỗi nếu có sản phẩm hết hàng trong lúc chuẩn bị thanh toán -->
+    <div th:if="${error}" class="alert alert-danger shadow-sm" th:text="${error}"></div>
+
+    <div class="row">
+        <!-- Cột trái: Form thông tin giao hàng -->
+        <div class="col-md-7 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white fw-bold py-3"><i class="bi bi-geo-alt-fill text-danger"></i> THÔNG TIN GIAO HÀNG</div>
+                <div class="card-body p-4">
+                    <form th:action="@{/checkout}" method="post">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted">Họ tên người nhận</label>
+                                <input type="text" class="form-control bg-light" th:value="${user.fullName}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted">Email</label>
+                                <input type="text" class="form-control bg-light" th:value="${user.email}" readonly>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-primary">Địa chỉ nhận hàng (Có thể chỉnh sửa tại đây):</label>
+                            <textarea name="shippingAddress" class="form-control border-primary" rows="3" required th:text="${user.address}"></textarea>
+                            <div class="form-text">Vui lòng nhập rõ Số nhà, Đường, Phường/Xã, Quận/Huyện, Tỉnh/Thành phố.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-sport btn-lg w-100 fw-bold shadow">
+                            <i class="bi bi-check-circle"></i> ĐỒNG Ý ĐẶT HÀNG NGAY
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột phải: Tóm tắt giỏ hàng -->
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white fw-bold py-3"><i class="bi bi-receipt"></i> TÓM TẮT ĐƠN HÀNG</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between lh-sm py-3" th:each="item : ${cartItems}">
+                        <div>
+                            <h6 class="my-0 text-dark fw-bold" th:text="${item.productName}">Tên SP</h6>
+                            <small class="text-muted">
+                                SL: <span th:text="${item.quantity}"></span> x
+                                <span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                            </small>
+                        </div>
+                        <span class="text-danger" th:text="${#numbers.formatDecimal(item.subTotal, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between bg-light py-3">
+                        <span class="text-danger fw-bold fs-5">TỔNG CỘNG</span>
+                        <strong class="text-danger fs-4" th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')} + ' đ'"></strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>

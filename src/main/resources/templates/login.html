@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Đăng nhập - Smash Shop')}"></head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="container mt-5 min-vh-100">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow border-0">
+                <div class="card-header bg-sport text-white text-center py-3">
+                    <h4 class="mb-0"><i class="bi bi-box-arrow-in-right"></i> Đăng Nhập</h4>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Thông báo lỗi nếu sai tài khoản/mật khẩu -->
+                    <div th:if="${param.error}" class="alert alert-danger text-center shadow-sm">
+                        Tên đăng nhập hoặc mật khẩu không đúng!
+                    </div>
+                    <!-- Thông báo nếu vừa đăng ký thành công -->
+                    <div th:if="${param.registered}" class="alert alert-success text-center shadow-sm">
+                        Đăng ký thành công! Vui lòng đăng nhập.
+                    </div>
+
+                    <form th:action="@{/perform_login}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tên đăng nhập</label>
+                            <input type="text" name="username" class="form-control form-control-lg" required placeholder="Nhập username...">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Mật khẩu</label>
+                            <input type="password" name="password" class="form-control form-control-lg" required placeholder="Nhập mật khẩu...">
+                        </div>
+                        <button type="submit" class="btn btn-sport btn-lg w-100 fw-bold shadow-sm">Đăng Nhập</button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        Chưa có tài khoản? <a th:href="@{/register}" class="text-decoration-none text-sport fw-bold">Đăng ký ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>
