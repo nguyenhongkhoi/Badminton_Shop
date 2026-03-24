@@ -1,4 +1,4 @@
-#database
+--database
 -- Bảng thương hiệu
 CREATE TABLE brands (
 id INT IDENTITY(1,1) PRIMARY KEY,
