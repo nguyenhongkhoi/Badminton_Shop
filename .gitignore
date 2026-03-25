@@ -31,3 +31,39 @@ build/
 
 ### VS Code ###
 .vscode/
+# compiled output
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.utils_backup
+pom.xml.v
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# vscode
+.vscode/
+*.code-workspace
+.history/
+
+# intellij (phòng hờ bác hoặc bạn bác dùng)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# log files
+*.log
+logs/
+
+# os generated files
+.DS_Store
+Thumbs.db
