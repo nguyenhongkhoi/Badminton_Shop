@@ -22,14 +22,13 @@ public class OrderService {
     private final OrderDetailRepository orderDetailRepository;
     private final ProductRepository productRepository;
 
-    // @Transactional đảm bảo: Nếu lưu lỗi ở bất kỳ bước nào (ví dụ hết hàng), toàn bộ quá trình bị hủy (Rollback), không lưu dữ liệu rác vào DB
     @Transactional
     public void placeOrder(User user, CartService cartService, String shippingAddress) {
         if (cartService.getItems().isEmpty()) {
             throw new RuntimeException("Giỏ hàng đang trống!");
         }
 
-        // 1. Tạo và lưu thông tin Đơn Hàng (Order)
+       // save ttin don hang
         Order order = new Order();
         order.setUser(user);
         order.setShippingAddress(shippingAddress);
@@ -38,7 +37,7 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
-        // 2. Duyệt qua giỏ hàng để lưu Chi tiết Đơn Hàng (OrderDetail) và Trừ Tồn Kho (Stock)
+        //duyet luu vi tri thay doi
         for (CartItem item : cartService.getItems()) {
             // Lấy sản phẩm từ DB để kiểm tra tồn kho
             Product product = productRepository.findById(item.getProductId())
@@ -48,7 +47,7 @@ public class OrderService {
                 throw new RuntimeException("Sản phẩm '" + product.getName() + "' không đủ số lượng tồn kho!");
             }
 
-            // Trừ tồn kho và cập nhật lại sản phẩm
+            //update sản phẩm
             product.setStock(product.getStock() - item.getQuantity());
             productRepository.save(product);
 
@@ -56,17 +55,17 @@ public class OrderService {
             OrderDetail detail = new OrderDetail();
             detail.setOrder(savedOrder);
             detail.setProduct(product);
-            detail.setPrice(item.getPrice()); // Lưu lại giá tại thời điểm mua
+            detail.setPrice(item.getPrice()); // gia cuoi
             detail.setQuantity(item.getQuantity());
 
             orderDetailRepository.save(detail);
         }
 
-        // 3. Xóa sạch giỏ hàng sau khi đặt thành công
+        //xoa gio do day
         cartService.clear();
     }
 
-    // Lấy danh sách lịch sử mua hàng của User
+    // lsu mua
     public List<Order> getOrderHistory(Integer userId) {
         return orderRepository.findByUserId(userId);
     }

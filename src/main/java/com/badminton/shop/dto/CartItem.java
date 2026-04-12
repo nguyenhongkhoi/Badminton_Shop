@@ -18,7 +18,7 @@ public class CartItem {
     private BigDecimal price;
     private int quantity;
 
-    // Tính tổng tiền của sản phẩm này (giá x số lượng)
+    //tong tien
     public BigDecimal getSubTotal() {
         return price.multiply(BigDecimal.valueOf(quantity));
     }

@@ -10,19 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@SessionScope // Đảm bảo mỗi người dùng truy cập web có 1 giỏ hàng riêng biệt trong Session
+@SessionScope
 public class CartService {
 
-    // Dùng Map để dễ dàng thêm/sửa/xóa sản phẩm dựa vào productId
     private Map<Integer, CartItem> map = new HashMap<>();
 
     public void add(CartItem item) {
-        // Nếu sản phẩm đã có trong giỏ -> tăng số lượng
+        // update số lượng
         CartItem existedItem = map.get(item.getProductId());
         if (existedItem != null) {
             existedItem.setQuantity(existedItem.getQuantity() + item.getQuantity());
         } else {
-            // Nếu chưa có -> thêm mới vào map
+            // update map
             map.put(item.getProductId(), item);
         }
     }

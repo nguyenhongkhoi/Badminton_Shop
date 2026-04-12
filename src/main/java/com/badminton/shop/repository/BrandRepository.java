@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BrandRepository extends JpaRepository<Brand, Integer> {
-    // Kế thừa các hàm cơ bản: findAll(), findById(), save(), delete()...
 }

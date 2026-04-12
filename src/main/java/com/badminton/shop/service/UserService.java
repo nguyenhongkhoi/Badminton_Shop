@@ -23,7 +23,7 @@ public class UserService {
             throw new RuntimeException("Email đã được sử dụng!");
         }
 
-        // Mã hóa mật khẩu
+        // ma hoa
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("USER");
 
