@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${product.name + ' | Chi tiết sản phẩm'}">Chi tiết sản phẩm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/shop-ui.css}">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <style type="text/tailwindcss">
+        @import "tailwindcss";
+        @theme inline {
+            --color-background: #fcfcfe;
+            --color-foreground: #172033;
+            --color-primary: #0d3b66;
+            --color-primary-foreground: #ffffff;
+            --color-secondary: #ff6b35;
+            --color-muted: #eef3f8;
+            --color-muted-foreground: #64748b;
+            --color-card: #ffffff;
+            --color-border: #d9e4ef;
+            --color-tertiary: #16a34a;
+            --radius-lg: 1.5rem;
+            --font-family-sans: "Be Vietnam Pro", sans-serif;
+            --font-family-heading: "Plus Jakarta Sans", sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+<div class="min-h-screen">
+    <header class="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+            <a th:href="@{/}" class="flex items-center gap-3">
+                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-lg shadow-primary/15">
+                    <iconify-icon icon="lucide:zap" class="text-2xl"></iconify-icon>
+                </div>
+                <div>
+                    <p class="font-heading text-xl font-extrabold tracking-tight">SMASH<span class="text-secondary">PRO</span></p>
+                    <p class="text-xs uppercase tracking-[0.3em] text-muted-foreground">Chi tiết sản phẩm</p>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-3">
+                <a th:href="@{/}" class="rounded-full border border-border px-5 py-2.5 text-sm font-bold transition-colors hover:border-primary hover:text-primary">Trang chủ</a>
+                <a th:href="@{/cart}" class="relative flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white transition-colors hover:border-primary hover:text-primary">
+                    <iconify-icon icon="lucide:shopping-cart" class="text-xl"></iconify-icon>
+                    <span class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-bold text-white" th:text="${cartCount}">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-6 py-6 lg:py-10">
+        <nav class="mb-8 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">
+            <a th:href="@{/}" class="transition-colors hover:text-primary">Trang chủ</a>
+            <iconify-icon icon="lucide:chevron-right"></iconify-icon>
+            <span th:if="${product.category != null}" th:text="${product.category.name}">Danh mục</span>
+            <iconify-icon th:if="${product.category != null}" icon="lucide:chevron-right"></iconify-icon>
+            <span class="text-primary" th:text="${product.name}">Tên sản phẩm</span>
+        </nav>
+
+        <section class="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+            <div class="space-y-4">
+                <div class="relative overflow-hidden rounded-[2rem] border border-border bg-white p-6 shadow-xl shadow-slate-900/6">
+                    <div class="absolute left-6 top-6 rounded-full bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-[0.25em] text-white" th:text="${product.brand != null ? product.brand.name : 'Badminton Shop'}">Yonex</div>
+                    <div class="flex aspect-square items-center justify-center overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-slate-100 via-white to-slate-100 p-8">
+                        <img id="main-product-image"
+                             th:src="${@templateUtils.resolveImageUrl(product.imageUrl)}"
+                             th:alt="${product.name}"
+                             class="h-full w-full object-contain transition-transform duration-500 hover:scale-105">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-4" data-gallery-root>
+                    <button type="button" class="product-thumb overflow-hidden rounded-2xl border-2 border-primary bg-white p-2">
+                        <img th:src="${@templateUtils.resolveImageUrl(product.imageUrl)}" th:alt="${product.name}" class="aspect-square h-full w-full object-contain">
+                    </button>
+                    <button type="button" class="product-thumb overflow-hidden rounded-2xl border border-border bg-white p-2">
+                        <img th:src="${@templateUtils.resolveImageUrl(product.imageUrl)}" th:alt="${product.name}" class="aspect-square h-full w-full object-contain opacity-85">
+                    </button>
+                    <button type="button" class="product-thumb overflow-hidden rounded-2xl border border-border bg-white p-2">
+                        <img th:src="${@templateUtils.resolveImageUrl(product.imageUrl)}" th:alt="${product.name}" class="aspect-square h-full w-full object-contain opacity-75">
+                    </button>
+                    <button type="button" class="product-thumb overflow-hidden rounded-2xl border border-dashed border-border bg-muted p-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+                        Xem kỹ
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-[0.28em] text-secondary">Hiệu năng thi đấu</p>
+                    <h1 class="mt-3 font-heading text-4xl font-extrabold leading-tight text-primary md:text-5xl" th:text="${product.name}">Tên sản phẩm</h1>
+
+                    <div class="mt-5 flex flex-wrap items-center gap-4">
+                        <div class="flex items-center gap-1 text-secondary">
+                            <iconify-icon icon="lucide:star" class="fill-current"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="fill-current"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="fill-current"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="fill-current"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="fill-current"></iconify-icon>
+                        </div>
+                        <span class="text-sm text-muted-foreground">Thiết kế mới đã nối dữ liệu thật từ hệ thống</span>
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap items-end gap-4">
+                        <p class="text-4xl font-extrabold text-primary" th:text="${@templateUtils.formatCurrency(product.price)}">0 đ</p>
+                        <span class="rounded-full bg-secondary/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-secondary" th:text="${product.stock > 0 ? 'Còn hàng' : 'Tạm hết hàng'}">Còn hàng</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 rounded-[2rem] border border-border bg-white p-6 shadow-sm">
+                    <div class="text-center">
+                        <iconify-icon icon="lucide:package-check" class="text-2xl text-secondary"></iconify-icon>
+                        <p class="mt-2 text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Mã sản phẩm</p>
+                        <p class="mt-1 text-sm font-bold text-primary" th:text="${'SP-' + product.id}">SP-1</p>
+                    </div>
+                    <div class="border-x border-border text-center">
+                        <iconify-icon icon="lucide:layers" class="text-2xl text-secondary"></iconify-icon>
+                        <p class="mt-2 text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Danh mục</p>
+                        <p class="mt-1 text-sm font-bold text-primary" th:text="${product.category != null ? product.category.name : 'Đang cập nhật'}">Vợt</p>
+                    </div>
+                    <div class="text-center">
+                        <iconify-icon icon="lucide:warehouse" class="text-2xl text-secondary"></iconify-icon>
+                        <p class="mt-2 text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Tồn kho</p>
+                        <p class="mt-1 text-sm font-bold text-primary" th:text="${product.stock}">0</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4 rounded-[2rem] border border-border bg-white p-6 shadow-sm">
+                    <h2 class="font-heading text-2xl font-extrabold text-primary">Mô tả sản phẩm</h2>
+                    <p class="leading-8 text-muted-foreground" th:text="${product.description != null && !#strings.isEmpty(product.description) ? product.description : 'Sản phẩm được tối ưu cho cảm giác cầm chắc tay, độ ổn định cao và khả năng kiểm soát cầu tốt trong các pha xử lý tốc độ.'}">
+                        Mô tả sản phẩm.
+                    </p>
+                </div>
+
+                <div class="space-y-4 rounded-[2rem] border border-border bg-white p-6 shadow-sm">
+                    <h3 class="font-heading text-2xl font-extrabold text-primary">Thông tin bổ sung</h3>
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-center justify-between border-b border-border pb-3">
+                            <span class="text-muted-foreground">Thương hiệu</span>
+                            <span class="font-bold text-primary" th:text="${product.brand != null ? product.brand.name : 'Đang cập nhật'}">Yonex</span>
+                        </div>
+                        <div class="flex items-center justify-between border-b border-border pb-3">
+                            <span class="text-muted-foreground">Danh mục</span>
+                            <span class="font-bold text-primary" th:text="${product.category != null ? product.category.name : 'Đang cập nhật'}">Vợt cầu lông</span>
+                        </div>
+                        <div class="flex items-center justify-between border-b border-border pb-3">
+                            <span class="text-muted-foreground">Tình trạng</span>
+                            <span class="font-bold" th:classappend="${product.stock > 0 ? ' text-green-600' : ' text-red-500'}" th:text="${product.stock > 0 ? 'Sẵn sàng giao hàng' : 'Hiện đang tạm hết'}">Sẵn sàng giao hàng</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-muted-foreground">Hỗ trợ</span>
+                            <span class="font-bold text-primary">Tư vấn chọn vợt theo lối chơi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form th:action="@{/cart/add}" method="post" class="rounded-[2rem] border border-border bg-primary p-6 text-white shadow-2xl shadow-primary/15">
+                    <input type="hidden" name="productId" th:value="${product.id}">
+                    <div class="flex flex-col gap-4 md:flex-row md:items-end">
+                        <div class="flex-1">
+                            <label for="quantity" class="text-xs font-bold uppercase tracking-[0.24em] text-white/70">Số lượng</label>
+                            <input id="quantity" type="number" name="quantity" min="1" value="1" class="mt-3 w-full rounded-2xl border border-white/15 bg-white/10 px-5 py-4 text-lg font-bold text-white outline-none placeholder:text-white/60 focus:border-secondary">
+                        </div>
+                        <button type="submit" class="inline-flex items-center justify-center gap-3 rounded-2xl bg-secondary px-8 py-4 text-base font-extrabold text-white transition-transform hover:-translate-y-1">
+                            <iconify-icon icon="lucide:shopping-cart"></iconify-icon>
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                    <div class="mt-5 grid gap-3 text-sm text-white/80 md:grid-cols-3">
+                        <div class="flex items-center gap-2">
+                            <iconify-icon icon="lucide:shield-check" class="text-secondary"></iconify-icon>
+                            <span>Hàng chính hãng</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <iconify-icon icon="lucide:truck" class="text-secondary"></iconify-icon>
+                            <span>Giao hàng toàn quốc</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <iconify-icon icon="lucide:rotate-ccw" class="text-secondary"></iconify-icon>
+                            <span>Hỗ trợ theo chính sách</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="mt-20">
+            <div class="mb-8 flex items-end justify-between gap-6">
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-[0.25em] text-secondary">Sản phẩm liên quan</p>
+                    <h2 class="mt-2 font-heading text-3xl font-extrabold text-primary">Gợi ý cho bạn</h2>
+                </div>
+                <a th:href="@{/}" class="rounded-full border border-border px-5 py-2.5 text-sm font-bold transition-colors hover:border-primary hover:text-primary">Quay lại trang chủ</a>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+                <article th:each="item : ${relatedProducts}" class="group overflow-hidden rounded-[2rem] border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-900/8">
+                    <a th:href="@{/product/{id}(id=${item.id})}" class="block">
+                        <div class="flex aspect-[4/4.2] items-center justify-center overflow-hidden bg-gradient-to-br from-slate-100 to-white p-6">
+                            <img th:src="${@templateUtils.resolveImageUrl(item.imageUrl)}" th:alt="${item.name}" class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                    </a>
+                    <div class="space-y-3 p-5">
+                        <p class="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground" th:text="${item.brand != null ? item.brand.name : 'Badminton Shop'}">Yonex</p>
+                        <h3 class="font-heading text-lg font-extrabold text-primary">
+                            <a th:href="@{/product/{id}(id=${item.id})}" th:text="${item.name}" class="transition-colors hover:text-secondary">Tên sản phẩm</a>
+                        </h3>
+                        <p class="text-sm text-muted-foreground" th:text="${@templateUtils.shortDescription(item.description, 80)}">Mô tả</p>
+                        <div class="flex items-center justify-between pt-2">
+                            <span class="text-xl font-extrabold text-secondary" th:text="${@templateUtils.formatCurrency(item.price)}">0 đ</span>
+                            <a th:href="@{/product/{id}(id=${item.id})}" class="text-sm font-bold text-primary transition-colors hover:text-secondary">Xem thêm</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-20 border-t border-border bg-white">
+        <div class="mx-auto grid max-w-7xl gap-8 px-6 py-14 md:grid-cols-3">
+            <div>
+                <p class="font-heading text-2xl font-extrabold text-primary">SMASH<span class="text-secondary">PRO</span></p>
+                <p class="mt-4 text-sm leading-7 text-muted-foreground">Trang chi tiết đã được chuyển từ giao diện UI mới sang Thymeleaf, giữ bố cục nổi bật và dùng dữ liệu động từ backend.</p>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-primary">Luồng truy cập</h4>
+                <div class="mt-4 space-y-3 text-sm text-muted-foreground">
+                    <p>Đường dẫn `/` trả về `main_page`.</p>
+                    <p>Đường dẫn `/product/{id}` trả về `detail_page`.</p>
+                    <p>Ảnh được resolve theo thư mục `/images/**` hoặc dùng URL có sẵn.</p>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-primary">Hỗ trợ</h4>
+                <div class="mt-4 space-y-3 text-sm text-muted-foreground">
+                    <p>Giỏ hàng kết nối trực tiếp `/cart/add`</p>
+                    <p>Số lượng giỏ hàng lấy từ `GlobalControllerAdvice`</p>
+                    <p>Phần gợi ý dùng dữ liệu sản phẩm liên quan từ controller</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<script th:src="@{/js/detail-page.js}"></script>
+</body>
+</html>

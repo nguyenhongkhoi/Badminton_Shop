@@ -17,36 +17,28 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // phan quyen
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        //public path
-                        .requestMatchers("/", "/home", "/register", "/login", "/products/**", "/css/**", "/js/**", "/images/**").permitAll()
-
-                        // phai reget
+                        .requestMatchers("/", "/home", "/product/**", "/register", "/login", "/products/**", "/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/cart/**", "/checkout", "/orders/**").hasAnyAuthority("USER", "ADMIN")
-
-                        // ad
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
-
-                        // rest
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") //cho Fe(theamleaf)
+                        .loginPage("/login")
                         .loginProcessingUrl("/perform_login")
-                        .defaultSuccessUrl("/", true)//ok -> trang chu
-                        .failureUrl("/login?error=true") //error
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error=true")
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout") //logout
+                        .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true) // Xóa session
-                        .deleteCookies("JSESSIONID") // xoa all cookie
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 );
 
