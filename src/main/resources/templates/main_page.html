@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badminton Shop | Trang chủ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/shop-ui.css}">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <style type="text/tailwindcss">
+        @import "tailwindcss";
+        @theme inline {
+            --color-background: #fffdf8;
+            --color-foreground: #172033;
+            --color-primary: #0d3b66;
+            --color-primary-foreground: #ffffff;
+            --color-secondary: #ff6b35;
+            --color-muted: #eef3f8;
+            --color-muted-foreground: #5f6f86;
+            --color-card: #ffffff;
+            --color-border: #d9e4ef;
+            --color-accent: #e7f1fb;
+            --radius-lg: 1.5rem;
+            --font-family-sans: "Be Vietnam Pro", sans-serif;
+            --font-family-heading: "Plus Jakarta Sans", sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+<div class="min-h-screen">
+    <header class="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+            <a th:href="@{/}" class="flex items-center gap-3">
+                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-lg shadow-primary/15">
+                    <iconify-icon icon="lucide:zap" class="text-2xl"></iconify-icon>
+                </div>
+                <div>
+                    <p class="font-heading text-xl font-extrabold tracking-tight">SMASH<span class="text-secondary">PRO</span></p>
+                    <p class="text-xs uppercase tracking-[0.3em] text-muted-foreground">Badminton Shop</p>
+                </div>
+            </a>
+
+            <nav class="hidden items-center gap-6 text-sm font-semibold lg:flex">
+                <a th:href="@{/}" class="transition-colors hover:text-primary">Trang chủ</a>
+                <a href="#danh-muc" class="transition-colors hover:text-primary">Danh mục</a>
+                <a href="#san-pham" class="transition-colors hover:text-primary">Sản phẩm</a>
+                <a href="#thuong-hieu" class="transition-colors hover:text-primary">Thương hiệu</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <a th:href="@{/cart}" class="relative flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white transition-colors hover:border-primary hover:text-primary">
+                    <iconify-icon icon="lucide:shopping-cart" class="text-xl"></iconify-icon>
+                    <span class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-bold text-white" th:text="${cartCount}">0</span>
+                </a>
+                <a th:href="@{/login}" class="hidden rounded-full border border-border px-5 py-2.5 text-sm font-bold transition-colors hover:border-primary hover:text-primary md:inline-flex">Đăng nhập</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(13,59,102,0.16),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(255,107,53,0.15),_transparent_28%)]"></div>
+            <div class="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-24">
+                <div class="relative z-10 flex flex-col justify-center">
+                    <span class="mb-4 inline-flex w-fit rounded-full bg-secondary/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] text-secondary">Bộ sưu tập mới</span>
+                    <h1 class="max-w-2xl font-heading text-5xl font-extrabold leading-tight md:text-6xl">
+                        Tăng tốc trên sân với dụng cụ cầu lông chuẩn thi đấu.
+                    </h1>
+                    <p class="mt-6 max-w-xl text-lg leading-8 text-muted-foreground">
+                        Giao diện mới cho Badminton Shop, kết nối trực tiếp dữ liệu sản phẩm Spring Boot để bạn duyệt, lọc và xem chi tiết nhanh hơn.
+                    </p>
+
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <a href="#san-pham" class="rounded-full bg-primary px-7 py-4 font-bold text-white shadow-xl shadow-primary/20 transition-transform hover:-translate-y-1">Khám phá sản phẩm</a>
+                        <a href="#danh-muc" class="rounded-full border border-border bg-white px-7 py-4 font-bold transition-colors hover:border-primary hover:text-primary">Xem danh mục</a>
+                    </div>
+
+                    <div class="mt-10 grid gap-4 sm:grid-cols-3">
+                        <div class="rounded-3xl border border-border bg-white p-5 shadow-sm">
+                            <p class="text-3xl font-extrabold text-primary" th:text="${#lists.size(products)}">0</p>
+                            <p class="mt-2 text-sm text-muted-foreground">Sản phẩm hiển thị</p>
+                        </div>
+                        <div class="rounded-3xl border border-border bg-white p-5 shadow-sm">
+                            <p class="text-3xl font-extrabold text-primary" th:text="${#lists.size(categories)}">0</p>
+                            <p class="mt-2 text-sm text-muted-foreground">Danh mục đang bán</p>
+                        </div>
+                        <div class="rounded-3xl border border-border bg-white p-5 shadow-sm">
+                            <p class="text-3xl font-extrabold text-primary" th:text="${#lists.size(brands)}">0</p>
+                            <p class="mt-2 text-sm text-muted-foreground">Thương hiệu góp mặt</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute -left-4 top-12 h-28 w-28 rounded-full bg-secondary/15 blur-3xl"></div>
+                    <div class="absolute -right-4 bottom-0 h-36 w-36 rounded-full bg-primary/15 blur-3xl"></div>
+                    <div class="relative overflow-hidden rounded-[2rem] border border-border bg-white p-4 shadow-2xl shadow-slate-900/8">
+                        <div class="overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-primary via-primary to-slate-900">
+                            <div class="grid min-h-[540px] gap-8 p-8 text-white md:grid-cols-[0.9fr_1.1fr] md:items-end">
+                                <div class="flex flex-col justify-between">
+                                    <div>
+                                        <p class="text-xs font-bold uppercase tracking-[0.35em] text-white/70">Sản phẩm nổi bật</p>
+                                        <h2 class="mt-5 font-heading text-3xl font-extrabold leading-tight" th:text="${heroProduct != null ? heroProduct.name : 'Vợt thi đấu cao cấp'}">Vợt thi đấu cao cấp</h2>
+                                        <p class="mt-4 text-sm leading-7 text-white/75" th:text="${heroProduct != null ? @templateUtils.shortDescription(heroProduct.description, 150) : 'Khung vợt ổn định, cảm giác cầu tốt và phù hợp cho người chơi cần sự kiểm soát chính xác.'}">
+                                            Mô tả sản phẩm nổi bật.
+                                        </p>
+                                    </div>
+
+                                    <div class="mt-8 space-y-3">
+                                        <div class="flex items-center gap-3 text-sm">
+                                            <iconify-icon icon="lucide:badge-check" class="text-secondary"></iconify-icon>
+                                            <span>Cam kết hàng chính hãng</span>
+                                        </div>
+                                        <div class="flex items-center gap-3 text-sm">
+                                            <iconify-icon icon="lucide:truck" class="text-secondary"></iconify-icon>
+                                            <span>Giao hàng toàn quốc</span>
+                                        </div>
+                                        <div class="flex items-center gap-3 text-sm">
+                                            <iconify-icon icon="lucide:shield-check" class="text-secondary"></iconify-icon>
+                                            <span>Hỗ trợ đổi trả theo chính sách</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col justify-between gap-6">
+                                    <div class="flex justify-end">
+                                        <span class="rounded-full bg-white/12 px-4 py-2 text-xs font-bold uppercase tracking-[0.3em]" th:text="${heroProduct != null && heroProduct.brand != null ? heroProduct.brand.name : 'Chuyên nghiệp'}">Chuyên nghiệp</span>
+                                    </div>
+
+                                    <img th:if="${heroProduct != null}"
+                                         th:src="${@templateUtils.resolveImageUrl(heroProduct.imageUrl)}"
+                                         th:alt="${heroProduct.name}"
+                                         class="mx-auto h-[320px] w-full max-w-sm object-contain drop-shadow-[0_30px_40px_rgba(0,0,0,0.35)]">
+                                    <img th:if="${heroProduct == null}"
+                                         th:src="@{/images/placeholder-product.svg}"
+                                         alt="Sản phẩm cầu lông"
+                                         class="mx-auto h-[320px] w-full max-w-sm object-contain opacity-90">
+
+                                    <div class="rounded-[1.5rem] bg-white/10 p-5 backdrop-blur-sm">
+                                        <div class="flex items-end justify-between gap-6">
+                                            <div>
+                                                <p class="text-xs uppercase tracking-[0.3em] text-white/60">Giá hiện tại</p>
+                                                <p class="mt-2 text-3xl font-extrabold" th:text="${heroProduct != null ? @templateUtils.formatCurrency(heroProduct.price) : 'Liên hệ'}">Liên hệ</p>
+                                            </div>
+                                            <a th:if="${heroProduct != null}" th:href="@{/product/{id}(id=${heroProduct.id})}" class="rounded-full bg-secondary px-6 py-3 text-sm font-bold text-white transition-transform hover:-translate-y-1">Xem chi tiết</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="danh-muc" class="mx-auto max-w-7xl px-6 py-8">
+            <div class="flex flex-col gap-5 rounded-[2rem] border border-border bg-white p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-[0.25em] text-secondary">Lọc nhanh</p>
+                    <h2 class="mt-2 font-heading text-3xl font-extrabold">Chọn đúng nhóm sản phẩm bạn cần</h2>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <a th:href="@{/}" class="rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors"
+                       th:classappend="${selectedCategoryId == null and selectedBrandId == null} ? ' border-primary bg-primary text-white' : ' border-border bg-white hover:border-primary hover:text-primary'">Tất cả</a>
+                    <a th:each="category : ${categories}"
+                       th:href="@{/(categoryId=${category.id})}"
+                       th:text="${category.name}"
+                       class="rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors"
+                       th:classappend="${selectedCategoryId == category.id} ? ' border-primary bg-primary text-white' : ' border-border bg-white hover:border-primary hover:text-primary'">Vợt cầu lông</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="thuong-hieu" class="mx-auto max-w-7xl px-6 py-6">
+            <div class="flex flex-wrap items-center gap-3">
+                <span class="mr-2 text-sm font-bold uppercase tracking-[0.25em] text-muted-foreground">Thương hiệu</span>
+                <a th:each="brand : ${brands}"
+                   th:href="@{/(brandId=${brand.id})}"
+                   class="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white"
+                   th:classappend="${selectedBrandId == brand.id} ? ' bg-primary text-white' : ''"
+                   th:text="${brand.name}">Yonex</a>
+            </div>
+        </section>
+
+        <section id="san-pham" class="bg-slate-50/70 py-16">
+            <div class="mx-auto max-w-7xl px-6">
+                <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                    <div>
+                        <p class="text-sm font-bold uppercase tracking-[0.25em] text-secondary">Danh sách sản phẩm</p>
+                        <h2 class="mt-2 font-heading text-4xl font-extrabold">Giao diện mới, dữ liệu thật từ hệ thống</h2>
+                    </div>
+                    <p class="max-w-xl text-sm leading-7 text-muted-foreground">
+                        Mỗi thẻ sản phẩm đã được chuyển sang Thymeleaf, lấy tên, ảnh, thương hiệu, danh mục và giá từ cơ sở dữ liệu thay vì nội dung tĩnh.
+                    </p>
+                </div>
+
+                <div th:if="${#lists.isEmpty(featuredProducts)}" class="rounded-[2rem] border border-dashed border-border bg-white p-12 text-center">
+                    <p class="text-xl font-bold text-primary">Chưa có sản phẩm để hiển thị.</p>
+                    <p class="mt-3 text-muted-foreground">Hãy thêm dữ liệu vào bảng `products` để trang chủ tự động cập nhật.</p>
+                </div>
+
+                <div th:if="${!#lists.isEmpty(featuredProducts)}" class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+                    <article th:each="product : ${featuredProducts}" class="group overflow-hidden rounded-[2rem] border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-900/8">
+                        <a th:href="@{/product/{id}(id=${product.id})}" class="block">
+                            <div class="relative flex aspect-square items-center justify-center overflow-hidden bg-gradient-to-br from-slate-100 to-white p-8">
+                                <div class="absolute left-4 top-4 rounded-full bg-secondary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-white" th:text="${product.category != null ? product.category.name : 'Sản phẩm'}">Sản phẩm</div>
+                                <img th:src="${@templateUtils.resolveImageUrl(product.imageUrl)}"
+                                     th:alt="${product.name}"
+                                     class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110">
+                            </div>
+                        </a>
+
+                        <div class="space-y-4 p-6">
+                            <div class="flex items-center justify-between gap-4">
+                                <div>
+                                    <p class="text-xs font-bold uppercase tracking-[0.25em] text-muted-foreground" th:text="${product.brand != null ? product.brand.name : 'Badminton Shop'}">Yonex</p>
+                                    <h3 class="mt-2 font-heading text-xl font-extrabold text-primary">
+                                        <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.name}" class="transition-colors hover:text-secondary">Tên sản phẩm</a>
+                                    </h3>
+                                </div>
+                                <span class="rounded-full bg-primary/8 px-3 py-1 text-xs font-bold text-primary" th:text="${product.stock > 0 ? 'Còn hàng' : 'Tạm hết'}">Còn hàng</span>
+                            </div>
+
+                            <p class="text-sm leading-7 text-muted-foreground" th:text="${@templateUtils.shortDescription(product.description, 105)}">
+                                Mô tả ngắn sản phẩm.
+                            </p>
+
+                            <div class="flex items-center justify-between gap-4 pt-2">
+                                <div>
+                                    <p class="text-xs uppercase tracking-[0.25em] text-muted-foreground">Giá bán</p>
+                                    <p class="mt-1 text-2xl font-extrabold text-primary" th:text="${@templateUtils.formatCurrency(product.price)}">0 đ</p>
+                                </div>
+                                <form th:action="@{/cart/add}" method="post">
+                                    <input type="hidden" name="productId" th:value="${product.id}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-secondary">
+                                        <iconify-icon icon="lucide:plus"></iconify-icon>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="mx-auto max-w-7xl px-6 py-20">
+            <div class="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+                <div class="overflow-hidden rounded-[2rem] bg-primary p-8 text-white shadow-2xl shadow-primary/10">
+                    <p class="text-sm font-bold uppercase tracking-[0.28em] text-secondary">Cam kết dịch vụ</p>
+                    <h2 class="mt-3 font-heading text-4xl font-extrabold">Một giao diện mới nhưng vẫn đúng luồng của Spring Boot.</h2>
+                    <div class="mt-8 space-y-5 text-sm leading-7 text-white/75">
+                        <p>Trang chủ dùng `th:each` để render danh sách sản phẩm, danh mục và thương hiệu từ backend.</p>
+                        <p>Link ảnh, CSS và JS đều đã đi theo chuẩn thư mục `/images`, `/css`, `/js` để deploy cùng ứng dụng.</p>
+                        <p>CTA sản phẩm dẫn thẳng đến `/product/{id}` thay vì giữ nội dung giả lập của bản React ban đầu.</p>
+                    </div>
+                </div>
+
+                <div class="rounded-[2rem] border border-border bg-white p-8 shadow-sm">
+                    <div class="mb-8 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-bold uppercase tracking-[0.25em] text-secondary">Mới cập nhật</p>
+                            <h3 class="mt-2 font-heading text-3xl font-extrabold">Sản phẩm vừa thêm</h3>
+                        </div>
+                        <span class="rounded-full bg-accent px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">Tự động theo `createdAt`</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <a th:each="item : ${newArrivalProducts}"
+                           th:href="@{/product/{id}(id=${item.id})}"
+                           class="flex items-center gap-4 rounded-[1.5rem] border border-border p-4 transition-all hover:border-primary hover:bg-accent">
+                            <div class="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 p-3">
+                                <img th:src="${@templateUtils.resolveImageUrl(item.imageUrl)}" th:alt="${item.name}" class="h-full w-full object-contain">
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground" th:text="${item.brand != null ? item.brand.name : 'Thương hiệu'}">Thương hiệu</p>
+                                <h4 class="mt-2 text-lg font-extrabold text-primary" th:text="${item.name}">Tên sản phẩm</h4>
+                                <p class="mt-2 text-sm text-muted-foreground" th:text="${@templateUtils.shortDescription(item.description, 88)}">Mô tả.</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-extrabold text-secondary" th:text="${@templateUtils.formatCurrency(item.price)}">0 đ</p>
+                                <p class="mt-1 text-xs text-muted-foreground">Xem chi tiết</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-border bg-white">
+        <div class="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-2 lg:grid-cols-4">
+            <div>
+                <p class="font-heading text-2xl font-extrabold text-primary">SMASH<span class="text-secondary">PRO</span></p>
+                <p class="mt-4 text-sm leading-7 text-muted-foreground">
+                    Cửa hàng cầu lông tích hợp trực tiếp UI mới vào Spring Boot, phù hợp cho cả trang chủ và trang chi tiết sản phẩm.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-primary">Điều hướng</h4>
+                <div class="mt-4 space-y-3 text-sm text-muted-foreground">
+                    <a th:href="@{/}" class="block transition-colors hover:text-primary">Trang chủ</a>
+                    <a href="#san-pham" class="block transition-colors hover:text-primary">Sản phẩm</a>
+                    <a th:href="@{/cart}" class="block transition-colors hover:text-primary">Giỏ hàng</a>
+                    <a th:href="@{/login}" class="block transition-colors hover:text-primary">Tài khoản</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-primary">Chính sách</h4>
+                <div class="mt-4 space-y-3 text-sm text-muted-foreground">
+                    <p>Hàng chính hãng, thông tin minh bạch.</p>
+                    <p>Hỗ trợ khách hàng trong suốt quá trình mua sắm.</p>
+                    <p>Đường dẫn tĩnh đã chuẩn hóa cho deploy thực tế.</p>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-primary">Liên hệ</h4>
+                <div class="mt-4 space-y-3 text-sm text-muted-foreground">
+                    <p>Badminton Shop</p>
+                    <p>Email: support@badmintonshop.vn</p>
+                    <p>Hotline: 0123 456 789</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

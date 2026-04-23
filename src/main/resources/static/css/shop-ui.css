@@ -1,0 +1,18 @@
+:root {
+    color-scheme: light;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-image:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(252, 252, 254, 0.96)),
+        radial-gradient(circle at top left, rgba(13, 59, 102, 0.06), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(255, 107, 53, 0.08), transparent 28%);
+}
+
+.product-thumb.is-active {
+    border-color: #0d3b66;
+}
